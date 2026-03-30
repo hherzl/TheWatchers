@@ -7,5 +7,5 @@ public record ListResponse<TModel> : Response where TModel : class
         Model = model;
     }
 
-    IList<TModel> Model { get; set; }
+    public IList<TModel> Model { get; set; }
 }

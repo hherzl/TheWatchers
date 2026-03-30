@@ -7,5 +7,5 @@ public record SingleResponse<TModel> : Response where TModel : class
         Model = model;
     }
 
-    TModel Model { get; set; }
+    public TModel Model { get; set; }
 }

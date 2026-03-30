@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TheWatchers.Application\TheWatchers.Application.csproj" />
     <ProjectReference Include="..\TheWatchers.Infrastructure\TheWatchers.Infrastructure.csproj" />
+    <ProjectReference Include="..\TheWatchers.Watchers.PingClient\TheWatchers.Watchers.PingClient.csproj" />
   </ItemGroup>
 
 </Project>

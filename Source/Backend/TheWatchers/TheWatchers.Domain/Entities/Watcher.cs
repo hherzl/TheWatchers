@@ -1,4 +1,5 @@
-﻿using TheWatchers.Domain.Common;
+﻿using System.Collections.ObjectModel;
+using TheWatchers.Domain.Common;
 
 namespace TheWatchers.Domain.Entities;
 
@@ -6,6 +7,7 @@ public partial class Watcher : Entity
 {
     public Watcher()
     {
+        WatcherParameters = [];
     }
 
     public Watcher(short? id)
@@ -19,4 +21,6 @@ public partial class Watcher : Entity
     public string ClassName { get; set; }
     public Guid? ClassGuid { get; set; }
     public string AssemblyQualifiedName { get; set; }
+
+    public virtual Collection<WatcherParameter> WatcherParameters { get; set; }
 }

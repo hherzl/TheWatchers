@@ -1,4 +1,5 @@
-﻿using TheWatchers.Application.Features.Watchers;
+﻿using Microsoft.EntityFrameworkCore;
+using TheWatchers.Application.Features.Watchers;
 using TheWatchers.Application.Services;
 using TheWatchers.Infrastructure.Persistence;
 using TheWatchers.SharedKernel.Models;
@@ -9,11 +10,23 @@ public sealed class WatchersService(TheWatchersDbContext dbContext) : IWatchersS
 {
     public async Task<IList<WatcherItemModel>> GetWatchersAsync(GetWatchersQuery request, CancellationToken ct = default)
     {
-        return await Task.FromResult(new List<WatcherItemModel>());
+        return await dbContext.GetWatchers().ToListAsync(ct);
     }
 
     public async Task<WatcherDetailsModel> GetWatcherAsync(GetWatcherQuery request, CancellationToken ct = default)
     {
-        return await Task.FromResult(new WatcherDetailsModel());
+        var watcher = await dbContext.GetWatcherAsync(request.Id, ct: ct);
+        if (watcher == null)
+            return null;
+
+        return new()
+        {
+            Id = watcher.Id,
+            Name = watcher.Name,
+            Description = watcher.Description,
+            ClassName = watcher.ClassName,
+            ClassGuid = watcher.ClassGuid,
+            AssemblyQualifiedName = watcher.AssemblyQualifiedName,
+        };
     }
 }

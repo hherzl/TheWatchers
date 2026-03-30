@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TheWatchers.Application.Services;
 using TheWatchers.Infrastructure.Persistence;
@@ -10,7 +11,7 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddInfrasructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<TheWatchersDbContext>();
+        services.AddDbContext<TheWatchersDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("TheWatchers")));
 
         services.AddScoped<IWatchersService, WatchersService>();
 

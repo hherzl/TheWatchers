@@ -1,6 +1,7 @@
 using TheWatchers.Application;
 using TheWatchers.Infrastructure;
 using TheWatchers.WebApi.Endpoints;
+using TheWatchers.WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +12,17 @@ builder.Services.AddOpenApi();
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddInfrasructureServices(builder.Configuration);
 
+builder.Services.AddScoped<TheWatchersDbInitializer>();
+
 var app = builder.Build();
+
+if (args.Contains("--seed"))
+{
+    using var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
+    var dbInitializer = serviceScope.ServiceProvider.GetRequiredService<TheWatchersDbInitializer>();
+    await dbInitializer.SeedAsync();
+    return;
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -23,28 +34,4 @@ app.UseHttpsRedirection();
 
 app.MapWatchers();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
-
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

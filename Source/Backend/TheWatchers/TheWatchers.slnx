@@ -3,5 +3,6 @@
   <Project Path="TheWatchers.Domain/TheWatchers.Domain.csproj" />
   <Project Path="TheWatchers.Infrastructure/TheWatchers.Infrastructure.csproj" />
   <Project Path="TheWatchers.SharedKernel/TheWatchers.SharedKernel.csproj" />
+  <Project Path="TheWatchers.Watchers.PingClient/TheWatchers.Watchers.PingClient.csproj" Id="777ee8f4-01ff-4b57-bdd0-10527d807548" />
   <Project Path="TheWatchers.WebApi/TheWatchers.WebApi.csproj" />
 </Solution>
