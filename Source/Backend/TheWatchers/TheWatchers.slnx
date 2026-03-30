@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="TheWatchers.Application/TheWatchers.Application.csproj" />
+  <Project Path="TheWatchers.Domain/TheWatchers.Domain.csproj" />
+  <Project Path="TheWatchers.Infrastructure/TheWatchers.Infrastructure.csproj" />
+  <Project Path="TheWatchers.SharedKernel/TheWatchers.SharedKernel.csproj" />
+  <Project Path="TheWatchers.WebApi/TheWatchers.WebApi.csproj" />
+</Solution>
