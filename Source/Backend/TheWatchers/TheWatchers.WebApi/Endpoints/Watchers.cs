@@ -7,15 +7,15 @@ public static class Mappings
 {
     public static WebApplication MapWatchers(this WebApplication webApplication)
     {
-        webApplication.MapGet("watchers", async ([FromServices] GetWatchersQueryHandler queryHandler, [AsParameters] GetWatchersQuery request, CancellationToken ct = default) =>
+        webApplication.MapGet("watchers", async ([FromServices] GetWatchersQueryHandler queryHandler, [AsParameters] GetWatchersQuery request) =>
         {
-            var value = await queryHandler.HandleAsync(request, ct);
+            var value = await queryHandler.HandleAsync(request);
             return Results.Ok(value);
         });
 
-        webApplication.MapGet("watchers/{id}", async ([FromServices] GetWatcherQueryHandler queryHandler, short id, CancellationToken ct = default) =>
+        webApplication.MapGet("watchers/{id}", async ([FromServices] GetWatcherQueryHandler queryHandler, short id) =>
         {
-            var value = await queryHandler.HandleAsync(new GetWatcherQuery(id), ct);
+            var value = await queryHandler.HandleAsync(new GetWatcherQuery(id));
             if (value == null)
                 return Results.NotFound();
 

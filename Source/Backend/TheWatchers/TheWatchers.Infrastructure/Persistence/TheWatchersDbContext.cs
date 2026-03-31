@@ -9,6 +9,13 @@ namespace TheWatchers.Infrastructure.Persistence;
 public partial class TheWatchersDbContext(DbContextOptions<TheWatchersDbContext> options) : DbContext(options)
 {
     public DbSet<Watcher> Watchers { get; set; }
+    public DbSet<WatcherParameter> WatcherParameters { get; set; }
+
+    public DbSet<Domain.Entities.Environment> Environments { get; set; }
+    public DbSet<ResourceCategory> ResourceCategories { get; set; }
+    public DbSet<Resource> Resources { get; set; }
+    public DbSet<ResourceWatch> ResourceWatches { get; set; }
+    public DbSet<ResourceWatchParameter> ResourceWatcheParameters { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

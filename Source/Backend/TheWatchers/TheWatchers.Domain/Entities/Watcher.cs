@@ -23,4 +23,5 @@ public partial class Watcher : Entity
     public string AssemblyQualifiedName { get; set; }
 
     public virtual Collection<WatcherParameter> WatcherParameters { get; set; }
+    public virtual Collection<ResourceCategory> ResourceCategories { get; set; }
 }
