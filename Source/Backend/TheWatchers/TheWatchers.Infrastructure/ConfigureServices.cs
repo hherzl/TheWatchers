@@ -14,6 +14,7 @@ public static class ConfigureServices
         services.AddDbContext<TheWatchersDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("TheWatchers")));
 
         services.AddScoped<IWatchersService, WatchersService>();
+        services.AddScoped<IResourcesService, ResourcesService>();
 
         return services;
     }

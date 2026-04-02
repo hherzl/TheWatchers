@@ -55,4 +55,54 @@ public partial class TheWatchersDbContext(DbContextOptions<TheWatchersDbContext>
     }
 
     #endregion
+
+    #region [ Resources watches ]
+
+    public IQueryable<ResourceWatchItemModel> GetResourceWatches()
+    {
+        var query =
+            from resourceWatch in ResourceWatches
+            join resource in Resources on resourceWatch.ResourceId equals resource.Id
+            join resourceCategory in ResourceCategories on resource.ResourceCategoryId equals resourceCategory.Id
+            join watcher in Watchers on resourceCategory.WatcherId equals watcher.Id
+            join environment in Environments on resourceWatch.EnvironmentId equals environment.Id
+            where resourceWatch.Active == true
+            select new ResourceWatchItemModel
+            {
+                Id = resourceWatch.Id,
+                ResourceId = resourceWatch.ResourceId,
+                Resource = resource.Name,
+                ResourceCategoryId = resource.Id,
+                ResourceCategory = resourceCategory.Name,
+                AssemblyQualifiedName = watcher.AssemblyQualifiedName,
+                EnvironmentId = environment.Id,
+                Environment = environment.Name,
+                Successful = resourceWatch.Successful,
+                WatchCount = resourceWatch.WatchCount,
+                LastWatch = resourceWatch.LastWatch,
+                Interval = resourceWatch.Interval
+            };
+
+        return query;
+    }
+
+    public async Task<ResourceWatch> GetResourceWatchAsync(int? id, bool tracking = false, bool includes = false, CancellationToken ct = default)
+    {
+        var query = ResourceWatches.AddQuerySpec(new GetResourceWatchQuerySpec(id));
+
+        if (!tracking)
+            query = query.AsNoTracking();
+
+        if (includes)
+        {
+            query = query
+                .Include(entity => entity.Resource)
+                .Include(entity => entity.Environment)
+                .Include(entity => entity.ResourceWatchParameters);
+        }
+
+        return await query.FirstOrDefaultAsync(ct);
+    }
+
+    #endregion
 }

@@ -26,14 +26,15 @@ internal class ResourceWatchConfiguration : EntityConfiguration<ResourceWatch>
         builder.Property(p => p.EnvironmentId).HasColumnType("smallint").IsRequired();
         builder.Property(p => p.Interval).HasColumnType("int").IsRequired();
         builder.Property(p => p.Description).HasColumnType("nvarchar(max)");
+        builder.Property(p => p.LastUpdateAt).HasColumnType("datetime");
+        builder.Property(p => p.LastUpdateBy).HasColumnType("nvarchar").HasMaxLength(100);
 
         // Add configuration for uniques
 
         builder
             .HasIndex(p => new { p.ResourceId, p.EnvironmentId })
             .IsUnique()
-            .HasDatabaseName("UQ_dbo_ResourceWatch_ResourceId_EnvironmentId")
-            ;
+            .HasDatabaseName("UQ_dbo_ResourceWatch_ResourceId_EnvironmentId");
 
         // Add configuration for foreign keys
 

@@ -90,6 +90,8 @@ CREATE TABLE [dbo].[ResourceWatch]
 	[LastWatch] DATETIME NULL,
 	[Interval] INT NOT NULL,
 	[Description] NVARCHAR(MAX) NULL,
+	[LastUpdateAt] DATETIME NULL,
+	[LastUpdateBy] NVARCHAR(100) NULL,
 	[Active] BIT NOT NULL
 )
 GO

@@ -1,0 +1,58 @@
+﻿using System.Collections.ObjectModel;
+using TheWatchers.Application.Services;
+using TheWatchers.Infrastructure.Persistence;
+using TheWatchers.SharedKernel.Core;
+using TheWatchers.SharedKernel.Models;
+
+namespace TheWatchers.WebApi.Services;
+
+public sealed class MonitorBackgroundService(IServiceScopeFactory serviceScopeFactory) : BackgroundService
+{
+    private readonly Collection<Timer> _timers = [];
+
+    protected override async Task ExecuteAsync(CancellationToken ct)
+    {
+        using var serviceScope = serviceScopeFactory.CreateScope();
+
+        var resourcesService = serviceScope.ServiceProvider.GetRequiredService<IResourcesService>();
+        var resourcesWatches = await resourcesService.GetResourcesWatchesAsync(new(), ct);
+        foreach (var resourceWatch in resourcesWatches)
+        {
+            var parameters = await resourcesService.GetResourceWatchParametersAsync(resourceWatch.Id, ct);
+            foreach (var parameter in parameters)
+            {
+                resourceWatch.Parameter.Values.Add(parameter.Parameter, parameter.Value);
+            }
+
+            _timers.Add(new Timer(Monitoring, resourceWatch, TimeSpan.Zero, TimeSpan.FromMilliseconds((double)resourceWatch.Interval)));
+        }
+    }
+
+    public async void Monitoring(object state)
+    {
+        if (state is not ResourceWatchItemModel cast)
+            return;
+
+        var watcherType = Type.GetType(cast.AssemblyQualifiedName, true);
+        var watcherInstance = (IWatcher)Activator.CreateInstance(watcherType);
+        var result = await watcherInstance.WatchAsync(cast.Parameter);
+        if (result.IsSuccess)
+            Console.WriteLine($"The watch for '{cast.Resource}' was 'Successfully' in '{cast.Environment}'");
+        else
+            Console.WriteLine($"The watch for '{cast.Resource}' was 'Failed' in '{cast.Environment}'");
+
+        using var dbContext = serviceScopeFactory.CreateScope().ServiceProvider.GetService<TheWatchersDbContext>();
+
+        var resourceWatch = await dbContext.GetResourceWatchAsync(cast.Id, tracking: true);
+
+        resourceWatch.Successful = result.IsSuccess;
+        resourceWatch.LastWatch = result.LastWatch;
+        resourceWatch.WatchCount += 1;
+        resourceWatch.LastUpdateAt = DateTime.Now;
+        resourceWatch.LastUpdateBy = typeof(MonitorBackgroundService).Name;
+
+        var affectedRows = await dbContext.SaveChangesAsync();
+        if (affectedRows > 0)
+            Console.WriteLine($"Resource watch was updated for '{cast.Resource}' resource in '{cast.Environment}' environment");
+    }
+}

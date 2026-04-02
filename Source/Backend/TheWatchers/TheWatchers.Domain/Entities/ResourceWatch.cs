@@ -24,6 +24,9 @@ public partial class ResourceWatch : Entity
     public int? Interval { get; set; }
     public string Description { get; set; }
 
+    public DateTime? LastUpdateAt { get; set; }
+    public string LastUpdateBy { get; set; }
+
     public virtual Resource Resource { get; set; }
     public virtual Environment Environment { get; set; }
     public virtual Collection<ResourceWatchParameter> ResourceWatchParameters { get; set; }
