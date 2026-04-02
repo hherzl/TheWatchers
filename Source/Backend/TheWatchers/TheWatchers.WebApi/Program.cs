@@ -3,6 +3,7 @@ using TheWatchers.Application;
 using TheWatchers.Infrastructure;
 using TheWatchers.WebApi;
 using TheWatchers.WebApi.Endpoints;
+using TheWatchers.WebApi.Hubs;
 using TheWatchers.WebApi.Services;
 
 try
@@ -24,6 +25,8 @@ try
     builder.Services.AddInfrasructureServices(builder.Configuration);
     builder.Services.AddServices(builder.Configuration);
 
+    builder.Services.AddSignalR(options => options.EnableDetailedErrors = true);
+
     var app = builder.Build();
 
     if (args.Contains("--seed"))
@@ -41,6 +44,8 @@ try
     }
 
     app.UseHttpsRedirection();
+
+    app.MapHub<MonitorHub>("/monitorhub");
 
     app.MapWatchers();
     app.MapResourceWatches();

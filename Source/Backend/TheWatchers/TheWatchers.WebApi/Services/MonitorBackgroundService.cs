@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using Microsoft.AspNetCore.SignalR;
 using TheWatchers.Application.Services;
 using TheWatchers.Infrastructure.Persistence;
 using TheWatchers.SharedKernel.Core;
 using TheWatchers.SharedKernel.Models;
+using TheWatchers.WebApi.Hubs;
 
 namespace TheWatchers.WebApi.Services;
 
@@ -33,15 +35,25 @@ public sealed class MonitorBackgroundService(ILogger<MonitorBackgroundService> l
         if (state is not ResourceWatchItemModel cast)
             return;
 
+        using var serviceScope = serviceScopeFactory.CreateScope();
+
+        var hubContext = serviceScope.ServiceProvider.GetService<IHubContext<MonitorHub>>();
+
         var watcherType = Type.GetType(cast.AssemblyQualifiedName, true);
         var watcherInstance = (IWatcher)Activator.CreateInstance(watcherType);
         var result = await watcherInstance.WatchAsync(cast.Parameter);
         if (result.IsSuccess)
-            logger.LogInformation($"The watch for '{cast.Resource}' was 'Successfully' in '{cast.Environment}'");
+            logger.LogInformation($"The watch for '{cast.Resource}' was 'Successfully' in '{cast.Environment}' environment");
         else
             logger.LogError($"The watch for '{cast.Resource}' was 'Failed' in '{cast.Environment}'");
 
-        using var dbContext = serviceScopeFactory.CreateScope().ServiceProvider.GetService<TheWatchersDbContext>();
+        logger.LogInformation($"Broadcasting the result watch for '{cast.Resource}' in '{cast.Environment}' environment...");
+
+        await hubContext.Clients.All.SendAsync(
+            HubMethods.ReceiveResourceWatch, new ResourceWatchArgs(cast.ResourceId, cast.Resource, cast.EnvironmentId, cast.Environment, result.IsSuccess, result.LastWatch)
+        );
+
+        using var dbContext = serviceScope.ServiceProvider.GetService<TheWatchersDbContext>();
 
         var resourceWatch = await dbContext.GetResourceWatchAsync(cast.Id, tracking: true);
 
