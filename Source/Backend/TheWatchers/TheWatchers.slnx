@@ -4,5 +4,6 @@
   <Project Path="TheWatchers.Infrastructure/TheWatchers.Infrastructure.csproj" />
   <Project Path="TheWatchers.SharedKernel/TheWatchers.SharedKernel.csproj" />
   <Project Path="TheWatchers.Watchers.PingClient/TheWatchers.Watchers.PingClient.csproj" Id="777ee8f4-01ff-4b57-bdd0-10527d807548" />
+  <Project Path="TheWatchers.Watchers.RESTfulGet/TheWatchers.Watchers.RESTfulGet.csproj" Id="3dc64ac5-2ef7-45c5-8bf9-10291d8d89f0" />
   <Project Path="TheWatchers.WebApi/TheWatchers.WebApi.csproj" />
 </Solution>

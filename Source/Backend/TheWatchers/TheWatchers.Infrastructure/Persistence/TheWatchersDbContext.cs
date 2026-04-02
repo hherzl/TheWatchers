@@ -51,7 +51,7 @@ public partial class TheWatchersDbContext(DbContextOptions<TheWatchersDbContext>
         if (includes)
             query = query.Include(entity => entity.WatcherParameters);
 
-        return await query.FirstOrDefaultAsync(ct);
+        return await query.SingleOrDefaultAsync(ct);
     }
 
     #endregion
@@ -101,7 +101,7 @@ public partial class TheWatchersDbContext(DbContextOptions<TheWatchersDbContext>
                 .Include(entity => entity.ResourceWatchParameters);
         }
 
-        return await query.FirstOrDefaultAsync(ct);
+        return await query.SingleOrDefaultAsync(ct);
     }
 
     #endregion
