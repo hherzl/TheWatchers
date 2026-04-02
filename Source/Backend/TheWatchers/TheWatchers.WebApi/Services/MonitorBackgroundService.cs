@@ -6,7 +6,7 @@ using TheWatchers.SharedKernel.Models;
 
 namespace TheWatchers.WebApi.Services;
 
-public sealed class MonitorBackgroundService(IServiceScopeFactory serviceScopeFactory) : BackgroundService
+public sealed class MonitorBackgroundService(ILogger<MonitorBackgroundService> logger, IServiceScopeFactory serviceScopeFactory) : BackgroundService
 {
     private readonly Collection<Timer> _timers = [];
 
@@ -37,9 +37,9 @@ public sealed class MonitorBackgroundService(IServiceScopeFactory serviceScopeFa
         var watcherInstance = (IWatcher)Activator.CreateInstance(watcherType);
         var result = await watcherInstance.WatchAsync(cast.Parameter);
         if (result.IsSuccess)
-            Console.WriteLine($"The watch for '{cast.Resource}' was 'Successfully' in '{cast.Environment}'");
+            logger.LogInformation($"The watch for '{cast.Resource}' was 'Successfully' in '{cast.Environment}'");
         else
-            Console.WriteLine($"The watch for '{cast.Resource}' was 'Failed' in '{cast.Environment}'");
+            logger.LogError($"The watch for '{cast.Resource}' was 'Failed' in '{cast.Environment}'");
 
         using var dbContext = serviceScopeFactory.CreateScope().ServiceProvider.GetService<TheWatchersDbContext>();
 
@@ -53,6 +53,6 @@ public sealed class MonitorBackgroundService(IServiceScopeFactory serviceScopeFa
 
         var affectedRows = await dbContext.SaveChangesAsync();
         if (affectedRows > 0)
-            Console.WriteLine($"Resource watch was updated for '{cast.Resource}' resource in '{cast.Environment}' environment");
+            logger.LogInformation($"Resource watch was updated for '{cast.Resource}' resource in '{cast.Environment}' environment");
     }
 }
