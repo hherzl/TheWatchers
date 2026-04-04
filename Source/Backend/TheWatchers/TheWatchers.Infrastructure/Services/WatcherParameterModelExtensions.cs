@@ -5,13 +5,13 @@ namespace TheWatchers.Infrastructure.Services;
 
 internal static class WatcherParameterModelExtensions
 {
-    public static WatcherParameterItemModel ToItemModel(this WatcherParameter item)
+    public static WatcherParameterItemModel ToItemModel(this WatcherParameter entity)
         => new()
         {
-            Id = item.Id,
-            Parameter = item.Parameter,
-            Value = item.Value,
-            IsDefault = item.IsDefault,
-            Description = item.Description
+            Id = entity.Id,
+            Parameter = entity.Parameter,
+            Value = entity.Value,
+            IsDefault = entity.IsDefault,
+            Description = entity.Description
         };
 }

@@ -1,0 +1,42 @@
+<mat-card class="details-card" *ngIf="watcher$ | async as w">
+    <mat-card-header>
+        <mat-card-title></mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="dashboard-card-content">
+        <p>Name: <strong>{{ w.name }}</strong></p>
+        <p>Description: {{ w.description }}</p>
+        <p>Class Name: <strong>{{ w.className }}</strong></p>
+        <p>Class Guid: <strong>{{ w.classGuid }}</strong></p>
+    </mat-card-content>
+</mat-card>
+
+<br>
+
+<h3>Parameters</h3>
+
+<table class="parameters-table" *ngIf="watcher$ | async as w">
+    <thead>
+        <tr>
+            <th>Parameter</th>
+            <th>Value</th>
+            <th>Is default</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let p of w.parameters">
+            <td>{{ p.parameter }}</td>
+            <td>{{ p.value }}</td>
+            <td>{{ p.isDefault }}</td>
+            <td>{{ p.description }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<br>
+
+<div class="toolbar-container">
+    <button matFab aria-label="Back" (click)="back()">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+</div>

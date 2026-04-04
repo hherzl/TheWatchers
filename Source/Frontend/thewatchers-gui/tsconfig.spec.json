@@ -11,5 +11,5 @@
   "include": [
     "src/**/*.d.ts",
     "src/**/*.spec.ts"
-  ]
+, "src/watcher-details/watcher-details.component.spec.ts"  ]
 }
