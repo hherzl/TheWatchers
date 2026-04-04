@@ -16,6 +16,8 @@ public static class ConfigureServices
         services.AddScoped<IWatchersService, WatchersService>();
         services.AddScoped<IResourcesService, ResourcesService>();
 
+        services.AddScoped<ISmtpClient, TheWatchersSmtpClient>();
+
         return services;
     }
 }

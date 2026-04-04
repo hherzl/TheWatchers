@@ -25,16 +25,6 @@ try
     builder.Services.AddInfrasructureServices(builder.Configuration);
     builder.Services.AddServices(builder.Configuration);
 
-    builder.Services.AddSignalR(options => options.EnableDetailedErrors = true);
-
-    builder.Services.AddCors(options =>
-    {
-        options.AddPolicy("gui", policy =>
-        {
-            policy.WithOrigins("https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
-        });
-    });
-
     var app = builder.Build();
 
     if (args.Contains("--seed"))
@@ -53,7 +43,11 @@ try
 
     app.UseHttpsRedirection();
 
-    app.UseCors("gui");
+    var policies = builder.Configuration.GetSection("Policies").Get<CorsPolicy[]>();
+    foreach (var policy in policies)
+    {
+        app.UseCors(policy.Name);
+    }
 
     app.MapHub<MonitorHub>("/monitorhub");
 
