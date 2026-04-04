@@ -52,6 +52,7 @@ try
     app.MapHub<MonitorHub>("/monitorhub");
 
     app.MapWatchers();
+    app.MapResources();
     app.MapResourceWatches();
 
     app.Run();

@@ -3,7 +3,7 @@ using TheWatchers.Application.Features.Watchers;
 
 namespace TheWatchers.WebApi.Endpoints;
 
-public static class Mappings
+public static partial class Mappings
 {
     public static WebApplication MapWatchers(this WebApplication webApplication)
     {

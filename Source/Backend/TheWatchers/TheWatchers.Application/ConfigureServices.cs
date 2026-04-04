@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TheWatchers.Application.Features.Resources;
 using TheWatchers.Application.Features.ResourcesWatches;
 using TheWatchers.Application.Features.Watchers;
 
@@ -11,6 +12,8 @@ public static class ConfigureServices
     {
         services.AddScoped<GetWatchersQueryHandler>();
         services.AddScoped<GetWatcherQueryHandler>();
+        services.AddScoped<GetResourcesQueryHandler>();
+        services.AddScoped<GetResourceQueryHandler>();
         services.AddScoped<GetResourcesWatchesQueryHandler>();
 
         return services;

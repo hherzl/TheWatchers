@@ -24,7 +24,7 @@ public partial class TheWatchersDbContext(DbContextOptions<TheWatchersDbContext>
         base.OnModelCreating(modelBuilder);
     }
 
-    #region [ Queries for Watcher ]
+    #region [ Watchers ]
 
     public IQueryable<WatcherItemModel> GetWatchers()
     {
@@ -56,6 +56,40 @@ public partial class TheWatchersDbContext(DbContextOptions<TheWatchersDbContext>
 
     #endregion
 
+    #region [ Resources ]
+
+    public IQueryable<ResourceItemModel> GetResources()
+    {
+        var query =
+            from resource in Resources
+            join resourceCategory in ResourceCategories on resource.ResourceCategoryId equals resourceCategory.Id
+            where resource.Active == true
+            select new ResourceItemModel
+            {
+                Id = resource.Id,
+                Name = resource.Name,
+                ResourceCategoryId = resource.Id,
+                ResourceCategory = resourceCategory.Name
+            };
+
+        return query;
+    }
+
+    public async Task<Resource> GetResourceAsync(int? id, bool tracking = false, bool includes = false, CancellationToken ct = default)
+    {
+        var query = Resources.AddQuerySpec(new GetResourceQuerySpec(id));
+
+        if (!tracking)
+            query = query.AsNoTracking();
+
+        if (includes)
+            query = query.Include(entity => entity.ResourceCategory);
+
+        return await query.SingleOrDefaultAsync(ct);
+    }
+
+    #endregion
+
     #region [ Resources watches ]
 
     public IQueryable<ResourceWatchItemModel> GetResourceWatches()
@@ -72,7 +106,7 @@ public partial class TheWatchersDbContext(DbContextOptions<TheWatchersDbContext>
                 Id = resourceWatch.Id,
                 ResourceId = resourceWatch.ResourceId,
                 Resource = resource.Name,
-                ResourceCategoryId = resource.Id,
+                ResourceCategoryId = resource.ResourceCategoryId,
                 ResourceCategory = resourceCategory.Name,
                 AssemblyQualifiedName = watcher.AssemblyQualifiedName,
                 EnvironmentId = environment.Id,
