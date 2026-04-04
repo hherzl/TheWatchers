@@ -27,6 +27,14 @@ try
 
     builder.Services.AddSignalR(options => options.EnableDetailedErrors = true);
 
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("gui", policy =>
+        {
+            policy.WithOrigins("https://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+        });
+    });
+
     var app = builder.Build();
 
     if (args.Contains("--seed"))
@@ -44,6 +52,8 @@ try
     }
 
     app.UseHttpsRedirection();
+
+    app.UseCors("gui");
 
     app.MapHub<MonitorHub>("/monitorhub");
 

@@ -1,0 +1,37 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Dashboard</h1>
+  <mat-grid-list cols="2" rowHeight="350px">
+    @for (card of cards$ | async; track card.resource) {
+    <mat-grid-tile [colspan]="card.cols" [rowspan]="card.rows">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+            {{ card.resource }}
+            <button matIconButton class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" xPosition="before">
+              <button mat-menu-item>View details</button>
+            </mat-menu>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <div>
+            <p>Category: {{ card.resourceCategory }}</p>
+            <p>Environment: {{ card.environment }}</p>
+            <p class="status">
+              <mat-icon [color]="card.successful ? 'primary' : 'warn'">
+                {{ card.successful ? 'check_circle' : 'cancel' }}
+              </mat-icon>
+              <span>
+                {{ card.successful ? 'Healthy' : 'Failed' }}
+              </span>
+            </p>
+            <p>Watch count: {{ card.watchCount }}, Last watch: {{ card.lastWatch | date: 'medium' }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    }
+  </mat-grid-list>
+</div>

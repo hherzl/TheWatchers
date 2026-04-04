@@ -4,6 +4,7 @@ public class WatcherResult : IWatcherResult
 {
     public WatcherResult()
     {
+        IsSuccess = false;
         LastWatch = DateTime.Now;
     }
 

@@ -47,12 +47,6 @@ public sealed class MonitorBackgroundService(ILogger<MonitorBackgroundService> l
         else
             logger.LogError($"The watch for '{cast.Resource}' was 'Failed' in '{cast.Environment}'");
 
-        logger.LogInformation($"Broadcasting the result watch for '{cast.Resource}' in '{cast.Environment}' environment...");
-
-        await hubContext.Clients.All.SendAsync(
-            HubMethods.ReceiveResourceWatch, new ResourceWatchArgs(cast.ResourceId, cast.Resource, cast.EnvironmentId, cast.Environment, result.IsSuccess, result.LastWatch)
-        );
-
         using var dbContext = serviceScope.ServiceProvider.GetService<TheWatchersDbContext>();
 
         var resourceWatch = await dbContext.GetResourceWatchAsync(cast.Id, tracking: true);
@@ -65,6 +59,25 @@ public sealed class MonitorBackgroundService(ILogger<MonitorBackgroundService> l
 
         var affectedRows = await dbContext.SaveChangesAsync();
         if (affectedRows > 0)
+        {
             logger.LogInformation($"Resource watch was updated for '{cast.Resource}' resource in '{cast.Environment}' environment");
+
+            logger.LogInformation($"Broadcasting the result watch for '{cast.Resource}' in '{cast.Environment}' environment...");
+
+            await hubContext.Clients.All.SendAsync(
+                HubMethods.ReceiveResourceWatch, new ResourceWatchArgs
+                {
+                    Id = cast.Id,
+                    Resource = cast.Resource,
+                    ResourceCategory = cast.ResourceCategory,
+                    Environment = cast.Environment,
+                    Successful = cast.Successful,
+                    WatchCount = resourceWatch.WatchCount,
+                    LastWatch = resourceWatch.LastWatch,
+                    Cols = 1,
+                    Rows = 1
+                }
+            );
+        }
     }
 }
