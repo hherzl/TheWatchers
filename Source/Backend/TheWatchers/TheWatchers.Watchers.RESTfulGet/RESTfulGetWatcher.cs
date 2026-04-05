@@ -10,10 +10,12 @@ public sealed class RESTfulGetWatcher : IWatcher
         => ClassGuid;
 
     public string ActionName
-        => "RESTfulGet";
+        => "RESTful-GET";
 
     public async Task<WatcherResult> WatchAsync(WatcherParam parameter)
     {
+        ArgumentNullException.ThrowIfNull(parameter);
+
         var result = new WatcherResult();
 
         try

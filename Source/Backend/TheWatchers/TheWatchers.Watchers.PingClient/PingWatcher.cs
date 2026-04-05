@@ -15,6 +15,8 @@ public sealed class PingWatcher : IWatcher
 
     public async Task<WatcherResult> WatchAsync(WatcherParam parameter)
     {
+        ArgumentNullException.ThrowIfNull(parameter);
+
         var result = new WatcherResult();
 
         try
