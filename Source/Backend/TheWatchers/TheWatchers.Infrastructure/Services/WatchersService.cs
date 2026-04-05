@@ -15,19 +15,19 @@ public sealed class WatchersService(TheWatchersDbContext dbContext) : IWatchersS
 
     public async Task<WatcherDetailsModel> GetWatcherAsync(GetWatcherQuery request, CancellationToken ct = default)
     {
-        var watcher = await dbContext.GetWatcherAsync(request.Id, false, true, ct);
-        if (watcher == null)
+        var entity = await dbContext.GetWatcherAsync(request.Id, false, true, ct);
+        if (entity == null)
             return null;
 
         return new()
         {
-            Id = watcher.Id,
-            Name = watcher.Name,
-            Description = watcher.Description,
-            ClassName = watcher.ClassName,
-            ClassGuid = watcher.ClassGuid,
-            AssemblyQualifiedName = watcher.AssemblyQualifiedName,
-            Parameters = [.. watcher.WatcherParameters.Select(item => item.ToItemModel())]
+            Id = entity.Id,
+            Name = entity.Name,
+            Description = entity.Description,
+            ClassName = entity.ClassName,
+            ClassGuid = entity.ClassGuid,
+            AssemblyQualifiedName = entity.AssemblyQualifiedName,
+            Parameters = [.. entity.WatcherParameters.Select(item => item.ToItemModel())]
         };
     }
 }

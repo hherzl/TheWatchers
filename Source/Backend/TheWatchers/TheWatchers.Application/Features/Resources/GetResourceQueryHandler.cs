@@ -5,10 +5,15 @@ using TheWatchers.SharedKernel.Models.Common;
 
 namespace TheWatchers.Application.Features.Resources;
 
-public sealed class GetResourceQueryHandler(IResourcesService service) : IRequestHandler<GetResourceQuery, SingleResponse<ResourceDetailsModel>>
+public sealed class GetResourceQueryHandler(IResourcesService service)
+    : IRequestHandler<GetResourceQuery, SingleResponse<ResourceDetailsModel>>
 {
     public async Task<SingleResponse<ResourceDetailsModel>> HandleAsync(GetResourceQuery request, CancellationToken ct = default)
     {
-        return new(await service.GetResourceAsync(request, ct));
+        var model = await service.GetResourceAsync(request, ct);
+        if (model == null)
+            return null;
+
+        return new(model);
     }
 }

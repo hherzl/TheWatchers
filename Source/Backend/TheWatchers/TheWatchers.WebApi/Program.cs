@@ -11,9 +11,9 @@ try
     var builder = WebApplication.CreateBuilder(args);
 
     Log.Logger = new LoggerConfiguration()
-            .WriteTo.Console()
-            .WriteTo.File(@"C:\Logs\TheWatchers", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true)
-            .CreateLogger();
+        .WriteTo.Console()
+        .WriteTo.File(@"C:\Logs\TheWatchers", rollingInterval: RollingInterval.Day, rollOnFileSizeLimit: true)
+        .CreateLogger();
 
     // Add services to the container.
     // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -24,6 +24,28 @@ try
     builder.Services.AddApplicationServices(builder.Configuration);
     builder.Services.AddInfrasructureServices(builder.Configuration);
     builder.Services.AddServices(builder.Configuration);
+
+    var policies = builder.Configuration.GetSection("Policies").Get<CorsPolicy[]>();
+    foreach (var policy in policies)
+    {
+        builder.Services.AddCors(options =>
+        {
+            foreach (var policy in policies)
+            {
+                options.AddPolicy(policy.Name, builder =>
+                {
+                    foreach (var origin in policy.Origins)
+                    {
+                        builder
+                            .WithOrigins(origin)
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();
+                    }
+                });
+            }
+        });
+    }
 
     var app = builder.Build();
 
@@ -43,7 +65,6 @@ try
 
     app.UseHttpsRedirection();
 
-    var policies = builder.Configuration.GetSection("Policies").Get<CorsPolicy[]>();
     foreach (var policy in policies)
     {
         app.UseCors(policy.Name);
@@ -52,6 +73,7 @@ try
     app.MapHub<MonitorHub>("/monitorhub");
 
     app.MapWatchers();
+    app.MapResourceCategories();
     app.MapResources();
     app.MapResourceWatches();
 

@@ -15,7 +15,7 @@ public partial class TheWatchersDbContext(DbContextOptions<TheWatchersDbContext>
     public DbSet<ResourceCategory> ResourceCategories { get; set; }
     public DbSet<Resource> Resources { get; set; }
     public DbSet<ResourceWatch> ResourceWatches { get; set; }
-    public DbSet<ResourceWatchParameter> ResourceWatcheParameters { get; set; }
+    public DbSet<ResourceWatchParameter> ResourceWatchParameters { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -50,6 +50,38 @@ public partial class TheWatchersDbContext(DbContextOptions<TheWatchersDbContext>
 
         if (includes)
             query = query.Include(entity => entity.WatcherParameters);
+
+        return await query.SingleOrDefaultAsync(ct);
+    }
+
+    #endregion
+
+    #region [ Resources Categories ]
+
+    public IQueryable<ResourceCategoryItemModel> GetResourcesCategories()
+    {
+        var query =
+            from resourceCategory in ResourceCategories
+            where resourceCategory.Active == true
+            select new ResourceCategoryItemModel
+            {
+                Id = resourceCategory.Id,
+                Name = resourceCategory.Name,
+            };
+
+        return query;
+    }
+
+    public async Task<ResourceCategory> GetResourceCategoryAsync(int? id, bool tracking = false, bool includes = false, CancellationToken ct = default)
+    {
+        var query = ResourceCategories.AddQuerySpec(new GetResourceCategoryQuerySpec(id));
+
+        if (!tracking)
+            query = query.AsNoTracking();
+
+        if (includes)
+        {
+        }
 
         return await query.SingleOrDefaultAsync(ct);
     }
@@ -136,6 +168,11 @@ public partial class TheWatchersDbContext(DbContextOptions<TheWatchersDbContext>
         }
 
         return await query.SingleOrDefaultAsync(ct);
+    }
+
+    public IQueryable<ResourceWatchParameter> GetResourceWatchParameters(short? resourceWatchId)
+    {
+        return ResourceWatchParameters.AddQuerySpec(new GetResourceWatchParameterByQuerySpec(resourceWatchId));
     }
 
     #endregion

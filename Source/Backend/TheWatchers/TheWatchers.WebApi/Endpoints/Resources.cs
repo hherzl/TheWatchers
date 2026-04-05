@@ -16,6 +16,9 @@ public static partial class Mappings
         webApplication.MapGet("resources/{id}", async ([FromServices] GetResourceQueryHandler queryHandler, int id) =>
         {
             var value = await queryHandler.HandleAsync(new GetResourceQuery(id));
+            if (value == null)
+                return Results.NotFound();
+
             return Results.Ok(value);
         });
 

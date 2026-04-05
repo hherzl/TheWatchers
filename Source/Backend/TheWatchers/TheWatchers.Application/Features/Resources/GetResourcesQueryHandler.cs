@@ -5,7 +5,8 @@ using TheWatchers.SharedKernel.Models.Common;
 
 namespace TheWatchers.Application.Features.Resources;
 
-public sealed class GetResourcesQueryHandler(IResourcesService service) : IRequestHandler<GetResourcesQuery, ListResponse<ResourceItemModel>>
+public sealed class GetResourcesQueryHandler(IResourcesService service)
+    : IRequestHandler<GetResourcesQuery, ListResponse<ResourceItemModel>>
 {
     public async Task<ListResponse<ResourceItemModel>> HandleAsync(GetResourcesQuery request, CancellationToken ct = default)
     {
