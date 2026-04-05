@@ -1,5 +1,6 @@
 ﻿using TheWatchers.Domain.Entities;
 using TheWatchers.Infrastructure.Persistence;
+using TheWatchers.Watchers.MongoDB;
 using TheWatchers.Watchers.PingClient;
 using TheWatchers.Watchers.PostgreSql;
 using TheWatchers.Watchers.RabbitMQ;
@@ -26,6 +27,12 @@ public sealed class TheWatchersDbInitializer(ILogger<TheWatchersDbInitializer> l
             await dbContext.SaveChangesAsync(ct);
 
             dbContext.Watchers.Add(new("PostgerSQL Server Databases watcher", "Watcher for PostgreSQL Server databases", new PostgreSqlDatabaseWatcher(), new WatcherParameter("ConnectionString", "", false)));
+            await dbContext.SaveChangesAsync(ct);
+
+            dbContext.Watchers.Add(new("Mongo DB Databases watcher", "Watcher for Mongo DB databases", new MongoDBWatcher(),
+                new WatcherParameter("ConnectionString", "", false),
+                new WatcherParameter("DatabaseName", "", false))
+            );
             await dbContext.SaveChangesAsync(ct);
 
             dbContext.Watchers.Add(new("Rabbit MQ watcher", "Watcher for Rabbit MQ instances", new RabbitMQWatcher(), new WatcherParameter("HostName", "", false)));

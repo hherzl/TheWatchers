@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TheWatchers.Application\TheWatchers.Application.csproj" />
     <ProjectReference Include="..\TheWatchers.Infrastructure\TheWatchers.Infrastructure.csproj" />
+    <ProjectReference Include="..\TheWatchers.Watchers.MongoDB\TheWatchers.Watchers.MongoDB.csproj" />
     <ProjectReference Include="..\TheWatchers.Watchers.PingClient\TheWatchers.Watchers.PingClient.csproj" />
     <ProjectReference Include="..\TheWatchers.Watchers.PostgreSql\TheWatchers.Watchers.PostgreSql.csproj" />
     <ProjectReference Include="..\TheWatchers.Watchers.RabbitMQ\TheWatchers.Watchers.RabbitMQ.csproj" />

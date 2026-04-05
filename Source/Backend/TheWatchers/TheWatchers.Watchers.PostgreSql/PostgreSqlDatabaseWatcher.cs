@@ -11,7 +11,7 @@ public sealed class PostgreSqlDatabaseWatcher : IWatcher
         => ClassGuid;
 
     public string ActionName
-        => "OpenDatabaseConnection";
+        => "OpenSqlDbConnection";
 
     public async Task<WatcherResult> WatchAsync(WatcherParam parameter)
     {

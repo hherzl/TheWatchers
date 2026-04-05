@@ -3,6 +3,7 @@
   <Project Path="TheWatchers.Domain/TheWatchers.Domain.csproj" />
   <Project Path="TheWatchers.Infrastructure/TheWatchers.Infrastructure.csproj" />
   <Project Path="TheWatchers.SharedKernel/TheWatchers.SharedKernel.csproj" />
+  <Project Path="TheWatchers.Watchers.MongoDB/TheWatchers.Watchers.MongoDB.csproj" Id="5e86a19c-49ed-46d6-91e7-b8012e9785cf" />
   <Project Path="TheWatchers.Watchers.PingClient/TheWatchers.Watchers.PingClient.csproj" Id="777ee8f4-01ff-4b57-bdd0-10527d807548" />
   <Project Path="TheWatchers.Watchers.PostgreSql/TheWatchers.Watchers.PostgreSql.csproj" Id="feba46b2-d025-4f2d-be80-f783965bbfb2" />
   <Project Path="TheWatchers.Watchers.RabbitMQ/TheWatchers.Watchers.RabbitMQ.csproj" Id="55269d11-d880-4a14-b9bf-f2a4db8100d4" />
