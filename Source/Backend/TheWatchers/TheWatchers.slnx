@@ -4,6 +4,7 @@
   <Project Path="TheWatchers.Infrastructure/TheWatchers.Infrastructure.csproj" />
   <Project Path="TheWatchers.SharedKernel/TheWatchers.SharedKernel.csproj" />
   <Project Path="TheWatchers.Watchers.PingClient/TheWatchers.Watchers.PingClient.csproj" Id="777ee8f4-01ff-4b57-bdd0-10527d807548" />
+  <Project Path="TheWatchers.Watchers.PostgreSql/TheWatchers.Watchers.PostgreSql.csproj" Id="feba46b2-d025-4f2d-be80-f783965bbfb2" />
   <Project Path="TheWatchers.Watchers.RabbitMQ/TheWatchers.Watchers.RabbitMQ.csproj" Id="55269d11-d880-4a14-b9bf-f2a4db8100d4" />
   <Project Path="TheWatchers.Watchers.RESTfulGet/TheWatchers.Watchers.RESTfulGet.csproj" Id="3dc64ac5-2ef7-45c5-8bf9-10291d8d89f0" />
   <Project Path="TheWatchers.Watchers.SqlServer/TheWatchers.Watchers.SqlServer.csproj" Id="b0302bb0-f99f-4a28-8551-9b566cf2afed" />

@@ -1,6 +1,8 @@
 ﻿using TheWatchers.Domain.Entities;
 using TheWatchers.Infrastructure.Persistence;
 using TheWatchers.Watchers.PingClient;
+using TheWatchers.Watchers.PostgreSql;
+using TheWatchers.Watchers.RabbitMQ;
 using TheWatchers.Watchers.RESTfulGet;
 using TheWatchers.Watchers.SqlServer;
 
@@ -20,7 +22,13 @@ public sealed class TheWatchersDbInitializer(ILogger<TheWatchersDbInitializer> l
             dbContext.Watchers.Add(new("RESTfulGet watcher", "Watcher for RESTful APIs", new RESTfulGetWatcher(), new WatcherParameter("Endpoint", "", false)));
             await dbContext.SaveChangesAsync(ct);
 
-            dbContext.Watchers.Add(new("RESTfulGet watcher", "Watcher for RESTful APIs", new SqlServerDatabaseWatcher(), new WatcherParameter("ConnectionString", "", false)));
+            dbContext.Watchers.Add(new("SQL Server Databases watcher", "Watcher for SQL Server databases", new SqlServerDatabaseWatcher(), new WatcherParameter("ConnectionString", "", false)));
+            await dbContext.SaveChangesAsync(ct);
+
+            dbContext.Watchers.Add(new("PostgerSQL Server Databases watcher", "Watcher for PostgreSQL Server databases", new PostgreSqlDatabaseWatcher(), new WatcherParameter("ConnectionString", "", false)));
+            await dbContext.SaveChangesAsync(ct);
+
+            dbContext.Watchers.Add(new("Rabbit MQ watcher", "Watcher for Rabbit MQ instances", new RabbitMQWatcher(), new WatcherParameter("HostName", "", false)));
             await dbContext.SaveChangesAsync(ct);
         }
 
