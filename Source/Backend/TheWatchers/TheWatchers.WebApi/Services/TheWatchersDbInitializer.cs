@@ -2,6 +2,7 @@
 using TheWatchers.Infrastructure.Persistence;
 using TheWatchers.Watchers.PingClient;
 using TheWatchers.Watchers.RESTfulGet;
+using TheWatchers.Watchers.SqlServer;
 
 namespace TheWatchers.WebApi.Services;
 
@@ -17,6 +18,9 @@ public sealed class TheWatchersDbInitializer(ILogger<TheWatchersDbInitializer> l
             await dbContext.SaveChangesAsync(ct);
 
             dbContext.Watchers.Add(new("RESTfulGet watcher", "Watcher for RESTful APIs", new RESTfulGetWatcher(), new WatcherParameter("Endpoint", "", false)));
+            await dbContext.SaveChangesAsync(ct);
+
+            dbContext.Watchers.Add(new("RESTfulGet watcher", "Watcher for RESTful APIs", new SqlServerDatabaseWatcher(), new WatcherParameter("ConnectionString", "", false)));
             await dbContext.SaveChangesAsync(ct);
         }
 
@@ -40,6 +44,9 @@ public sealed class TheWatchersDbInitializer(ILogger<TheWatchersDbInitializer> l
 
             dbContext.ResourceCategories.Add(new("RESTful APIs", 2));
             await dbContext.SaveChangesAsync(ct);
+
+            dbContext.ResourceCategories.Add(new("SQL Server databases", 3));
+            await dbContext.SaveChangesAsync(ct);
         }
 
         if (!dbContext.Resources.Any())
@@ -51,16 +58,31 @@ public sealed class TheWatchersDbInitializer(ILogger<TheWatchersDbInitializer> l
 
             dbContext.Resources.Add(new("Sample watcher for RESTful APIs", 2));
             await dbContext.SaveChangesAsync(ct);
+
+            dbContext.Resources.Add(new("SQL Server Database sample watcher", 3));
+            await dbContext.SaveChangesAsync(ct);
         }
 
         if (!dbContext.ResourceWatches.Any())
         {
             logger.LogInformation("Creating resource watches...");
 
-            dbContext.ResourceWatches.Add(new(1, 1, 60000, "Ping test in dev", new ResourceWatchParameter(1, "IPAddress", "192.168.1.1", "IP address (IP v4)")));
+            dbContext.ResourceWatches.Add(new(1, 1, 50000, "Ping test in dev",
+                new ResourceWatchParameter(1, "IPAddress", "192.168.1.1", "IP address (IP v4)"))
+            );
+
             await dbContext.SaveChangesAsync(ct);
 
-            dbContext.ResourceWatches.Add(new(2, 1, 30000, "GET request sample", new ResourceWatchParameter(2, "Endpoint", "https://api.ipify.org/?format=json", "ipify API (Public IP Address API")));
+            dbContext.ResourceWatches.Add(new(2, 1, 55000, "GET request sample",
+                new ResourceWatchParameter(2, "Endpoint", "https://api.ipify.org/?format=json", "ipify API (Public IP Address API"))
+            );
+
+            await dbContext.SaveChangesAsync(ct);
+
+            dbContext.ResourceWatches.Add(new(3, 1, 60000, "SQL Server database connnection sample",
+                new ResourceWatchParameter(3, "ConnecionString", "Server=(local); Database=TheWatchers; Integrated Security=yes; TrustServerCertificate=true;", "The Watchers database connection string"))
+            );
+
             await dbContext.SaveChangesAsync(ct);
         }
     }

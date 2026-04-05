@@ -9,17 +9,14 @@ public static partial class Mappings
     {
         webApplication.MapGet("watchers", async ([FromServices] GetWatchersQueryHandler queryHandler, [AsParameters] GetWatchersQuery request) =>
         {
-            var value = await queryHandler.HandleAsync(request);
-            return Results.Ok(value);
+            var result = await queryHandler.HandleAsync(request);
+            return Results.Ok(result);
         });
 
         webApplication.MapGet("watchers/{id}", async ([FromServices] GetWatcherQueryHandler queryHandler, short id) =>
         {
-            var value = await queryHandler.HandleAsync(new GetWatcherQuery(id));
-            if (value == null)
-                return Results.NotFound();
-
-            return Results.Ok(value);
+            var result = await queryHandler.HandleAsync(new GetWatcherQuery(id));
+            return result == null ? Results.NotFound() : Results.Ok(result);
         });
 
         return webApplication;

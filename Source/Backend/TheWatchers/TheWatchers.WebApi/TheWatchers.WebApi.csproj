@@ -16,6 +16,7 @@
     <ProjectReference Include="..\TheWatchers.Infrastructure\TheWatchers.Infrastructure.csproj" />
     <ProjectReference Include="..\TheWatchers.Watchers.PingClient\TheWatchers.Watchers.PingClient.csproj" />
     <ProjectReference Include="..\TheWatchers.Watchers.RESTfulGet\TheWatchers.Watchers.RESTfulGet.csproj" />
+    <ProjectReference Include="..\TheWatchers.Watchers.SqlServer\TheWatchers.Watchers.SqlServer.csproj" />
   </ItemGroup>
 
 </Project>
