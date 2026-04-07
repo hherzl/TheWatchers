@@ -21,11 +21,11 @@ public sealed class MongoDBWatcher : IWatcher
 
         try
         {
-            var client = new MongoClient(parameters.Values[WatchParameters.ConnectionString]);
+            var client = new MongoClient(parameters[WatchParameters.ConnectionString]);
 
             await client.StartSessionAsync();
 
-            var database = client.GetDatabase(parameters.Values[WatchParameters.DatabaseName]);
+            var database = client.GetDatabase(parameters[WatchParameters.DatabaseName]);
 
             result.IsSuccess = true;
         }

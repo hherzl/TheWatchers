@@ -23,7 +23,7 @@ public sealed class MonitorBackgroundService(ILogger<MonitorBackgroundService> l
             var parameters = await resourcesService.GetResourceWatchParametersAsync(resourceWatch.Id, ct);
             foreach (var parameter in parameters)
             {
-                resourceWatch.Parameters.Values.Add(parameter.Parameter, parameter.Value);
+                resourceWatch.Parameters.Add(parameter.Parameter, parameter.Value);
             }
 
             _timers.Add(new Timer(Monitoring, resourceWatch, TimeSpan.Zero, TimeSpan.FromMilliseconds((double)resourceWatch.Interval)));

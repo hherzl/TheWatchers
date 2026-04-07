@@ -6,7 +6,8 @@ namespace TheWatchers.Infrastructure.Services;
 internal static class ResourceWatchModelExtensions
 {
     public static ResourceWatchItemModel ToItemModel(this ResourceWatch entity)
-        => new()
+    {
+        var model = new ResourceWatchItemModel()
         {
             ResourceId = entity.ResourceId,
             Resource = entity.Resource.Name,
@@ -17,4 +18,12 @@ internal static class ResourceWatchModelExtensions
             LastWatch = entity.LastWatch,
             Interval = entity.Interval
         };
+
+        foreach (var parameter in entity.ResourceWatchParameters)
+        {
+            model.Parameters.Add(parameter.Parameter, parameter.Value);
+        }
+
+        return model;
+    }
 }

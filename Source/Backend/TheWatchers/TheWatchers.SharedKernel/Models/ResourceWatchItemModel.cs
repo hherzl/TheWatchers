@@ -22,5 +22,5 @@ public record ResourceWatchItemModel
     public DateTime? LastWatch { get; set; }
     public double? Interval { get; set; }
 
-    public WatchParameters Parameters;
+    public WatchParameters Parameters { get; set; }
 }

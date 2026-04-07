@@ -19,7 +19,7 @@ public sealed class PostgreSqlDatabaseWatcher : IWatcher
 
         var result = new WatchResult();
 
-        using var connection = new NpgsqlConnection(parameters.Values[WatchParameters.ConnectionString]);
+        using var connection = new NpgsqlConnection(parameters[WatchParameters.ConnectionString]);
 
         try
         {

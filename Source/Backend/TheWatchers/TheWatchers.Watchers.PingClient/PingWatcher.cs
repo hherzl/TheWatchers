@@ -21,7 +21,7 @@ public sealed class PingWatcher : IWatcher
 
         try
         {
-            var reply = await new Ping().SendPingAsync(parameters.Values[WatchParameters.IPAddress]);
+            var reply = await new Ping().SendPingAsync(parameters[WatchParameters.IPAddress]);
             result.IsSuccess = reply.Status == IPStatus.Success;
         }
         catch (Exception ex)

@@ -22,7 +22,7 @@ public sealed class RESTfulGetWatcher : IWatcher
         {
             using var client = new HttpClient();
 
-            var response = await client.GetAsync(parameters.Values[WatchParameters.Endpoint]);
+            var response = await client.GetAsync(parameters[WatchParameters.Endpoint]);
             response.EnsureSuccessStatusCode();
 
             result.IsSuccess = true;

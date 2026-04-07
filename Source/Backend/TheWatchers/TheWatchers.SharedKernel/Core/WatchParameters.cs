@@ -1,6 +1,6 @@
 ﻿namespace TheWatchers.SharedKernel.Core;
 
-public class WatchParameters
+public class WatchParameters : Dictionary<string, string>
 {
     public const string IPAddress = "IPAddress";
     public const string ConnectionString = "ConnectionString";
@@ -10,13 +10,14 @@ public class WatchParameters
 
     public WatchParameters()
     {
-        Values = new Dictionary<string, string>();
     }
 
     public WatchParameters(IDictionary<string, string> dictionary)
     {
-        Values = dictionary;
+        foreach (var entry in dictionary)
+        {
+            if (!ContainsKey(entry.Key))
+                Add(entry.Key, entry.Value);
+        }
     }
-
-    public IDictionary<string, string> Values { get; set; }
 }

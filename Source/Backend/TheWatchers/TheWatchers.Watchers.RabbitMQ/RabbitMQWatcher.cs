@@ -23,7 +23,7 @@ public sealed class RabbitMQWatcher : IWatcher
         {
             var factory = new ConnectionFactory
             {
-                HostName = parameters.Values[WatchParameters.HostName]
+                HostName = parameters[WatchParameters.HostName]
             };
 
             using var connection = await factory.CreateConnectionAsync();

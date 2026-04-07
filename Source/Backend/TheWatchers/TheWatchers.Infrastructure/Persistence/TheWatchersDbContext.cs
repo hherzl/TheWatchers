@@ -119,9 +119,12 @@ public partial class TheWatchersDbContext(DbContextOptions<TheWatchersDbContext>
             query = query
                 .Include(entity => entity.ResourceCategory)
                 .Include(entity => entity.ResourceWatches)
-                    .ThenInclude(entity => entity.Environment);
+                    .ThenInclude(entity => entity.Environment)
+                .Include(entity => entity.ResourceWatches)
+                .ThenInclude(entity => entity.ResourceWatchParameters);
         }
 
+        
         return await query.SingleOrDefaultAsync(ct);
     }
 

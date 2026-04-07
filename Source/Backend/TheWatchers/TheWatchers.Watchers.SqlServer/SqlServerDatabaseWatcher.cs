@@ -19,7 +19,7 @@ public sealed class SqlServerDatabaseWatcher : IWatcher
 
         var result = new WatchResult();
 
-        using var connection = new SqlConnection(parameters.Values[WatchParameters.ConnectionString]);
+        using var connection = new SqlConnection(parameters[WatchParameters.ConnectionString]);
 
         try
         {
