@@ -3,19 +3,19 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
-import { WatcherItemModel } from '../services/the-watchers-client';
+import { ResourceItemModel } from '../services/the-watchers-client';
 
 /**
- * Data source for the WatchersList view. This class should
+ * Data source for the ResourcesList view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class WatchersListDataSource extends DataSource<WatcherItemModel> {
-  data: WatcherItemModel[];
+export class ResourcesListDataSource extends DataSource<ResourceItemModel> {
+  data: ResourceItemModel[];
   paginator: MatPaginator | undefined;
   sort: MatSort | undefined;
 
-  constructor(data: WatcherItemModel[]) {
+  constructor(data: ResourceItemModel[]) {
     super();
     this.data = data;
   }
@@ -25,7 +25,7 @@ export class WatchersListDataSource extends DataSource<WatcherItemModel> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<WatcherItemModel[]> {
+  connect(): Observable<ResourceItemModel[]> {
     if (this.paginator && this.sort) {
       // Combine everything that affects the rendered data into one update
       // stream for the data-table to consume.
@@ -49,7 +49,7 @@ export class WatchersListDataSource extends DataSource<WatcherItemModel> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: WatcherItemModel[]): WatcherItemModel[] {
+  private getPagedData(data: ResourceItemModel[]): ResourceItemModel[] {
     if (this.paginator) {
       const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
       return data.splice(startIndex, this.paginator.pageSize);
@@ -62,7 +62,7 @@ export class WatchersListDataSource extends DataSource<WatcherItemModel> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: WatcherItemModel[]): WatcherItemModel[] {
+  private getSortedData(data: ResourceItemModel[]): ResourceItemModel[] {
     if (!this.sort || !this.sort.active || this.sort.direction === '') {
       return data;
     }

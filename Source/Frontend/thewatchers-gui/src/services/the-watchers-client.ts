@@ -18,6 +18,10 @@ export class TheWatchersClient {
     return this.http.get<SingleResponse<WatcherDetailsModel>>(`${THE_WATCHERS_ENDPOINT}/watchers/${id}`);
   }
 
+  public getResources(): Observable<ListResponse<ResourceItemModel>> {
+    return this.http.get<ListResponse<ResourceItemModel>>(`${THE_WATCHERS_ENDPOINT}/resources`);
+  }
+
   public getResourcesWatches(): Observable<ListResponse<ResourceWatchItemModel>> {
     return this.http.get<ListResponse<ResourceWatchItemModel>>(`${THE_WATCHERS_ENDPOINT}/resources-watches`);
   }
@@ -46,6 +50,13 @@ export class WatcherParameterItemModel {
   public value!: string;
   public isDefault!: boolean;
   public description!: string;
+}
+
+export class ResourceItemModel {
+  public id!: number;
+  public name!: string;
+  public resourceCategoryId!: number;
+  public resourceCategory!: string;
 }
 
 export class ResourceWatchItemModel {
