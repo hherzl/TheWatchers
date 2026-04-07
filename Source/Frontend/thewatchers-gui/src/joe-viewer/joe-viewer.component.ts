@@ -86,6 +86,7 @@ export class JoeViewerComponent implements OnInit {
 
   private addReceiveResourceWatchListener(): void {
     this.hubConnection.on('receiveResourceWatch', (data) => {
+      console.log(data);
       const current = this.resourcesSubject.value;
       const index = current.findIndex(item => item.id === data.id);
       if (index === -1) {

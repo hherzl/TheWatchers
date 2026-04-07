@@ -13,19 +13,19 @@ public sealed class MongoDBWatcher : IWatcher
     public string ActionName
         => "OpenNoSqlDbConnection";
 
-    public async Task<WatcherResult> WatchAsync(WatcherParam parameter)
+    public async Task<WatchResult> WatchAsync(WatchParameters parameters)
     {
-        ArgumentNullException.ThrowIfNull(parameter);
+        ArgumentNullException.ThrowIfNull(parameters);
 
-        var result = new WatcherResult();
+        var result = new WatchResult();
 
         try
         {
-            var client = new MongoClient(parameter.Values[WatcherParam.ConnectionString]);
+            var client = new MongoClient(parameters.Values[WatchParameters.ConnectionString]);
 
             await client.StartSessionAsync();
 
-            var database = client.GetDatabase(parameter.Values[WatcherParam.DatabaseName]);
+            var database = client.GetDatabase(parameters.Values[WatchParameters.DatabaseName]);
 
             result.IsSuccess = true;
         }

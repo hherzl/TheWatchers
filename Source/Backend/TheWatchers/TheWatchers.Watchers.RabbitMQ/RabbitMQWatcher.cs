@@ -13,17 +13,17 @@ public sealed class RabbitMQWatcher : IWatcher
     public string ActionName
         => "CreateBrokerConnection";
 
-    public async Task<WatcherResult> WatchAsync(WatcherParam parameter)
+    public async Task<WatchResult> WatchAsync(WatchParameters parameters)
     {
-        ArgumentNullException.ThrowIfNull(parameter);
+        ArgumentNullException.ThrowIfNull(parameters);
 
-        var result = new WatcherResult();
+        var result = new WatchResult();
 
         try
         {
             var factory = new ConnectionFactory
             {
-                HostName = parameter.Values[WatcherParam.HostName]
+                HostName = parameters.Values[WatchParameters.HostName]
             };
 
             using var connection = await factory.CreateConnectionAsync();

@@ -12,17 +12,17 @@ public sealed class RESTfulGetWatcher : IWatcher
     public string ActionName
         => "RESTful-GET";
 
-    public async Task<WatcherResult> WatchAsync(WatcherParam parameter)
+    public async Task<WatchResult> WatchAsync(WatchParameters parameters)
     {
-        ArgumentNullException.ThrowIfNull(parameter);
+        ArgumentNullException.ThrowIfNull(parameters);
 
-        var result = new WatcherResult();
+        var result = new WatchResult();
 
         try
         {
             using var client = new HttpClient();
 
-            var response = await client.GetAsync(parameter.Values[WatcherParam.Endpoint]);
+            var response = await client.GetAsync(parameters.Values[WatchParameters.Endpoint]);
             response.EnsureSuccessStatusCode();
 
             result.IsSuccess = true;

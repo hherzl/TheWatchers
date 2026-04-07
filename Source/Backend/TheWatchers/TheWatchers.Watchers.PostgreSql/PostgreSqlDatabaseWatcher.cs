@@ -13,13 +13,13 @@ public sealed class PostgreSqlDatabaseWatcher : IWatcher
     public string ActionName
         => "OpenSqlDbConnection";
 
-    public async Task<WatcherResult> WatchAsync(WatcherParam parameter)
+    public async Task<WatchResult> WatchAsync(WatchParameters parameters)
     {
-        ArgumentNullException.ThrowIfNull(parameter);
+        ArgumentNullException.ThrowIfNull(parameters);
 
-        var result = new WatcherResult();
+        var result = new WatchResult();
 
-        using var connection = new NpgsqlConnection(parameter.Values[WatcherParam.ConnectionString]);
+        using var connection = new NpgsqlConnection(parameters.Values[WatchParameters.ConnectionString]);
 
         try
         {

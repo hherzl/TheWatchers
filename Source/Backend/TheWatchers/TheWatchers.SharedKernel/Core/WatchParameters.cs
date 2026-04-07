@@ -1,6 +1,6 @@
 ﻿namespace TheWatchers.SharedKernel.Core;
 
-public class WatcherParam
+public class WatchParameters
 {
     public const string IPAddress = "IPAddress";
     public const string ConnectionString = "ConnectionString";
@@ -8,12 +8,12 @@ public class WatcherParam
     public const string Endpoint = "Endpoint";
     public const string HostName = "HostName";
 
-    public WatcherParam()
+    public WatchParameters()
     {
         Values = new Dictionary<string, string>();
     }
 
-    public WatcherParam(IDictionary<string, string> dictionary)
+    public WatchParameters(IDictionary<string, string> dictionary)
     {
         Values = dictionary;
     }

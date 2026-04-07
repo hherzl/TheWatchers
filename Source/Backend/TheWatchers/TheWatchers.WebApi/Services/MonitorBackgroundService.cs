@@ -23,7 +23,7 @@ public sealed class MonitorBackgroundService(ILogger<MonitorBackgroundService> l
             var parameters = await resourcesService.GetResourceWatchParametersAsync(resourceWatch.Id, ct);
             foreach (var parameter in parameters)
             {
-                resourceWatch.Parameter.Values.Add(parameter.Parameter, parameter.Value);
+                resourceWatch.Parameters.Values.Add(parameter.Parameter, parameter.Value);
             }
 
             _timers.Add(new Timer(Monitoring, resourceWatch, TimeSpan.Zero, TimeSpan.FromMilliseconds((double)resourceWatch.Interval)));
@@ -37,15 +37,13 @@ public sealed class MonitorBackgroundService(ILogger<MonitorBackgroundService> l
 
         using var serviceScope = serviceScopeFactory.CreateScope();
 
-        var hubContext = serviceScope.ServiceProvider.GetService<IHubContext<MonitorHub>>();
-
         var watcherType = Type.GetType(cast.AssemblyQualifiedName, true);
         var watcherInstance = (IWatcher)Activator.CreateInstance(watcherType);
-        var result = await watcherInstance.WatchAsync(cast.Parameter);
+        var result = await watcherInstance.WatchAsync(cast.Parameters);
         if (result.IsSuccess)
-            logger.LogInformation($"The watch for '{cast.Resource}' was 'Successfully' in '{cast.Environment}' environment");
+            logger.LogInformation($"The watch for '{cast.Resource}' was 'successfully' in '{cast.Environment}' environment");
         else
-            logger.LogError($"The watch for '{cast.Resource}' was 'Failed' in '{cast.Environment}'");
+            logger.LogError($"The watch for '{cast.Resource}' was 'failed' in '{cast.Environment}' environment");
 
         using var dbContext = serviceScope.ServiceProvider.GetService<TheWatchersDbContext>();
 
@@ -62,6 +60,7 @@ public sealed class MonitorBackgroundService(ILogger<MonitorBackgroundService> l
         {
             logger.LogInformation($"Resource watch was updated for '{cast.Resource}' resource in '{cast.Environment}' environment");
 
+            var hubContext = serviceScope.ServiceProvider.GetService<IHubContext<MonitorHub>>();
             logger.LogInformation($"Broadcasting the result watch for '{cast.Resource}' in '{cast.Environment}' environment...");
 
             await hubContext.Clients.All.SendAsync(

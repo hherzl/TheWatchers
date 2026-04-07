@@ -62,6 +62,15 @@ public sealed class TheWatchersDbInitializer(ILogger<TheWatchersDbInitializer> l
 
             dbContext.ResourceCategories.Add(new("SQL Server databases", 3));
             await dbContext.SaveChangesAsync(ct);
+
+            dbContext.ResourceCategories.Add(new("PostgreSQL Server databases", 4));
+            await dbContext.SaveChangesAsync(ct);
+
+            dbContext.ResourceCategories.Add(new("MongoDB databases", 5));
+            await dbContext.SaveChangesAsync(ct);
+
+            dbContext.ResourceCategories.Add(new("Rabbit MQ instances", 6));
+            await dbContext.SaveChangesAsync(ct);
         }
 
         if (!dbContext.Resources.Any())
@@ -74,7 +83,16 @@ public sealed class TheWatchersDbInitializer(ILogger<TheWatchersDbInitializer> l
             dbContext.Resources.Add(new("Sample watcher for RESTful APIs", 2));
             await dbContext.SaveChangesAsync(ct);
 
-            dbContext.Resources.Add(new("SQL Server Database sample watcher", 3));
+            dbContext.Resources.Add(new("SQL Server Database sample resource", 3));
+            await dbContext.SaveChangesAsync(ct);
+
+            dbContext.Resources.Add(new("PostgreSQL Database sample resource", 4));
+            await dbContext.SaveChangesAsync(ct);
+
+            dbContext.Resources.Add(new("Mongo DB sample resource", 5));
+            await dbContext.SaveChangesAsync(ct);
+
+            dbContext.Resources.Add(new("Rabbit MQ sample resource", 6));
             await dbContext.SaveChangesAsync(ct);
         }
 
@@ -95,7 +113,13 @@ public sealed class TheWatchersDbInitializer(ILogger<TheWatchersDbInitializer> l
             await dbContext.SaveChangesAsync(ct);
 
             dbContext.ResourceWatches.Add(new(3, 1, 60000, "SQL Server database connnection sample",
-                new ResourceWatchParameter(3, "ConnecionString", "Server=(local); Database=TheWatchers; Integrated Security=yes; TrustServerCertificate=true;", "The Watchers database connection string"))
+                new ResourceWatchParameter(3, "ConnectionString", "Server=(local); Database=TheWatchers; Integrated Security=yes; TrustServerCertificate=true;", "The Watchers database connection string"))
+            );
+
+            await dbContext.SaveChangesAsync(ct);
+
+            dbContext.ResourceWatches.Add(new(4, 1, 70000, "PostgreSQL database connnection sample",
+                new ResourceWatchParameter(3, "ConnectionString", "Server=localhost; Port=5432; Database=dvdrental; UserId=postgres; Password=Pass123$;", "PosgreSQL database connection string"))
             );
 
             await dbContext.SaveChangesAsync(ct);

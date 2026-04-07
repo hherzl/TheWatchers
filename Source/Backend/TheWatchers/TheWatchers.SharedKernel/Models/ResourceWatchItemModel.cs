@@ -6,7 +6,7 @@ public record ResourceWatchItemModel
 {
     public ResourceWatchItemModel()
     {
-        Parameter = new();
+        Parameters = new();
     }
 
     public int? Id { get; set; }
@@ -22,5 +22,5 @@ public record ResourceWatchItemModel
     public DateTime? LastWatch { get; set; }
     public double? Interval { get; set; }
 
-    public WatcherParam Parameter;
+    public WatchParameters Parameters;
 }

@@ -1,8 +1,8 @@
 ﻿namespace TheWatchers.SharedKernel.Core;
 
-public class WatcherResult : IWatcherResult
+public class WatchResult : IWatchResult
 {
-    public WatcherResult()
+    public WatchResult()
     {
         IsSuccess = false;
         LastWatch = DateTime.Now;

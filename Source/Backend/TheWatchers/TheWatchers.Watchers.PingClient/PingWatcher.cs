@@ -13,15 +13,15 @@ public sealed class PingWatcher : IWatcher
     public string ActionName
         => "Ping";
 
-    public async Task<WatcherResult> WatchAsync(WatcherParam parameter)
+    public async Task<WatchResult> WatchAsync(WatchParameters parameters)
     {
-        ArgumentNullException.ThrowIfNull(parameter);
+        ArgumentNullException.ThrowIfNull(parameters);
 
-        var result = new WatcherResult();
+        var result = new WatchResult();
 
         try
         {
-            var reply = await new Ping().SendPingAsync(parameter.Values[WatcherParam.IPAddress]);
+            var reply = await new Ping().SendPingAsync(parameters.Values[WatchParameters.IPAddress]);
             result.IsSuccess = reply.Status == IPStatus.Success;
         }
         catch (Exception ex)

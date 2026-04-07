@@ -1,6 +1,6 @@
 ﻿namespace TheWatchers.SharedKernel.Core;
 
-public interface IWatcherResult
+public interface IWatchResult
 {
     bool IsSuccess { get; set; }
     DateTime LastWatch { get; set; }

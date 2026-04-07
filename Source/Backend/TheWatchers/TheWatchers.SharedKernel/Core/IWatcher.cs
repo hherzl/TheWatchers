@@ -6,5 +6,5 @@ public interface IWatcher
 
     string ActionName { get; }
 
-    Task<WatcherResult> WatchAsync(WatcherParam parameter);
+    Task<WatchResult> WatchAsync(WatchParameters parameters);
 }
