@@ -1,0 +1,22 @@
+.details-card {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.watches-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.watches-table th,
+.watches-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+.toolbar-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-left: 10px;
+}

@@ -115,7 +115,12 @@ public partial class TheWatchersDbContext(DbContextOptions<TheWatchersDbContext>
             query = query.AsNoTracking();
 
         if (includes)
-            query = query.Include(entity => entity.ResourceCategory);
+        {
+            query = query
+                .Include(entity => entity.ResourceCategory)
+                .Include(entity => entity.ResourceWatches)
+                    .ThenInclude(entity => entity.Environment);
+        }
 
         return await query.SingleOrDefaultAsync(ct);
     }

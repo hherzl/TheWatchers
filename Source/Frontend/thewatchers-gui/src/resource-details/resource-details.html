@@ -1,0 +1,42 @@
+<mat-card class="details-card" *ngIf="resource$ | async as r">
+    <mat-card-header>
+        <mat-card-title></mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="dashboard-card-content">
+        <p>Name: <strong>{{ r.name }}</strong></p>
+        <p>Category: <strong>{{ r.resourceCategory }}</strong></p>
+    </mat-card-content>
+</mat-card>
+
+<br>
+
+<h3>Watches</h3>
+
+<table class="watches-table" *ngIf="resource$ | async as r">
+    <thead>
+        <tr>
+            <th>Environment</th>
+            <th>Successful</th>
+            <th>Watch count</th>
+            <th>Last watch</th>
+            <th>Interval</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let r of r.resourceWatches">
+            <td>{{ r.environment }}</td>
+            <td>{{ r.successful ? 'Yes' : 'No' }}</td>
+            <td>{{ r.watchCount }}</td>
+            <td>{{ r.lastWatch | date: 'medium' }}</td>
+            <td>{{ r.interval }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<br>
+
+<div class="toolbar-container">
+    <button matFab aria-label="Back" (click)="back()">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+</div>

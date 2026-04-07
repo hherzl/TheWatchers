@@ -47,7 +47,8 @@ public sealed class ResourcesService(TheWatchersDbContext dbContext) : IResource
             Id = entity.Id,
             Name = entity.Name,
             ResourceCategoryId = entity.ResourceCategoryId,
-            ResourceCategory = entity.ResourceCategory.Name
+            ResourceCategory = entity.ResourceCategory.Name,
+            ResourceWatches = [.. entity.ResourceWatches.Select(item => item.ToItemModel())]
         };
     }
 
