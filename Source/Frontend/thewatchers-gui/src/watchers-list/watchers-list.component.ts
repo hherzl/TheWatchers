@@ -2,6 +2,8 @@ import { AfterViewInit, Component, inject, ViewChild } from '@angular/core';
 import { MatTableModule, MatTable } from '@angular/material/table';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatSortModule, MatSort } from '@angular/material/sort';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { WatchersListDataSource } from './watchers-list-datasource';
 import { TheWatchersClient, WatcherItemModel } from '../services/the-watchers-client';
 import { Router } from '@angular/router';
@@ -10,7 +12,7 @@ import { Router } from '@angular/router';
   selector: 'app-watchers-list',
   templateUrl: './watchers-list.component.html',
   styleUrl: './watchers-list.component.css',
-  imports: [MatTableModule, MatPaginatorModule, MatSortModule],
+  imports: [MatTableModule, MatPaginatorModule, MatSortModule, MatButtonModule, MatIconModule],
 })
 export class WatchersListComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -31,6 +33,10 @@ export class WatchersListComponent implements AfterViewInit {
       this.dataSource.paginator = this.paginator;      
       this.table.dataSource = this.dataSource;
     });
+  }
+
+  create(): void {
+    this.router.navigate([`watchers-create`]);
   }
 
   details(item: WatcherItemModel): void {

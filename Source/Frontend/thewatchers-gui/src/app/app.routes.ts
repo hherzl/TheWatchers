@@ -4,11 +4,13 @@ import { WatchersListComponent } from '../watchers-list/watchers-list.component'
 import { WatcherDetailsComponent } from '../watcher-details/watcher-details.component';
 import { ResourcesListComponent } from '../resources-list/resources-list.component';
 import { ResourceDetails } from '../resource-details/resource-details';
+import { WatcherCreateComponent } from '../watcher-create/watcher-create.component';
 
 export const routes: Routes = [
     { path: '', component: Home },
     { path: 'watchers', component: WatchersListComponent },
     { path: 'watchers/:id', component: WatcherDetailsComponent },
+    { path: 'watchers-create', component: WatcherCreateComponent },
     { path: 'resources', component: ResourcesListComponent },
     { path: 'resources/:id', component: ResourceDetails }
 ];

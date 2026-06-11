@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { THE_WATCHERS_ENDPOINT } from '../settings';
-import { ListResponse, SingleResponse } from './common';
+import { CreatedResponse, ListItem, ListResponse, SingleResponse } from './common';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,14 @@ export class TheWatchersClient {
 
   public getWatcher(id: number): Observable<SingleResponse<WatcherDetailsModel>> {
     return this.http.get<SingleResponse<WatcherDetailsModel>>(`${THE_WATCHERS_ENDPOINT}/watchers/${id}`);
+  }
+
+  public getCreateWatcherViewBag(): Observable<CreateWatcherViewBagModel> {
+    return this.http.get<CreateWatcherViewBagModel>(`${THE_WATCHERS_ENDPOINT}/watchers/create-viewbag`);
+  }
+
+  public createWatcher(request: CreateWatcherModel): Observable<CreatedResponse<number>> {
+    return this.http.post<CreatedResponse<number>>(`${THE_WATCHERS_ENDPOINT}/watchers`, request);
   }
 
   public getResources(): Observable<ListResponse<ResourceItemModel>> {
@@ -48,6 +56,19 @@ export class WatcherDetailsModel {
   public parameters!: WatcherParameterItemModel[];
 }
 
+export class CreateWatcherViewBagModel {
+  public assemblies!: ListItem<string>[];
+}
+
+export class CreateWatcherModel {
+  public name!: string;
+  public description!: string;
+  public className!: string;
+  public classGuid!: string;
+
+  public parameters!: WatcherParameterItemModel[];
+}
+
 export class WatcherParameterItemModel {
   public id!: number;
   public parameter!: string;
@@ -70,6 +91,7 @@ export class ResourceDetailsModel {
   public resourceCategory!: string;
 
   public resourceWatches!: ResourceWatchItemModel[];
+  
 }
 
 export class ResourceWatchItemModel {

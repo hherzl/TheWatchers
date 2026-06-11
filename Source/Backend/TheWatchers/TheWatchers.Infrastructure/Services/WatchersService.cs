@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TheWatchers.Application.Features.Watchers;
 using TheWatchers.Application.Services;
+using TheWatchers.Domain.Entities;
 using TheWatchers.Infrastructure.Persistence;
 using TheWatchers.SharedKernel.Models;
 
@@ -29,5 +30,23 @@ public sealed class WatchersService(TheWatchersDbContext dbContext) : IWatchersS
             AssemblyQualifiedName = entity.AssemblyQualifiedName,
             Parameters = [.. entity.WatcherParameters.Select(item => item.ToItemModel())]
         };
+    }
+
+    public async Task<short?> CreateWatcherAsync(CreateWatcherCommand request, CancellationToken ct = default)
+    {
+        var entity = new Watcher
+        {
+            Name = request.Name,
+            Description = request.Description,
+            ClassName = request.ClassName,
+            ClassGuid = request.ClassGuid,
+            AssemblyQualifiedName = request.AssemblyQualifiedName
+        };
+
+        dbContext.Watchers.Add(entity);
+
+        await dbContext.SaveChangesAsync(ct);
+
+        return entity.Id;
     }
 }

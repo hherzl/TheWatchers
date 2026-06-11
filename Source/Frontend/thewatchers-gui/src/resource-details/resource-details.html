@@ -10,6 +10,23 @@
 
 <br>
 
+<h3>Parameters</h3>
+
+<table class="parameters-table" *ngIf="resource$ | async as r">
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let r of r.resourceWatches">
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+<br>
+
 <h3>Watches</h3>
 
 <table class="watches-table" *ngIf="resource$ | async as r">

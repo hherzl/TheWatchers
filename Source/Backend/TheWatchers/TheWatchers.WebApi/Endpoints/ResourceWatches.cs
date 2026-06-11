@@ -7,9 +7,9 @@ public static partial class Mappings
 {
     public static WebApplication MapResourceWatches(this WebApplication webApplication)
     {
-        webApplication.MapGet("resources-watches", async ([FromServices] GetResourcesWatchesQueryHandler queryHandler, [AsParameters] GetResourcesWatchesQuery request) =>
+        webApplication.MapGet("resources-watches", async ([FromServices] GetResourcesWatchesQueryHandler handler, [AsParameters] GetResourcesWatchesQuery request) =>
         {
-            var value = await queryHandler.HandleAsync(request);
+            var value = await handler.HandleAsync(request);
             return Results.Ok(value);
         });
 

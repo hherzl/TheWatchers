@@ -13,6 +13,7 @@ public static class ConfigureServices
     {
         services.AddScoped<GetWatchersQueryHandler>();
         services.AddScoped<GetWatcherQueryHandler>();
+        services.AddScoped<GetCreateWatcherViewBagQueryHandler>();
         services.AddScoped<GetResourcesCategoriesQueryHandler>();
         services.AddScoped<GetResourceCategoryQueryHandler>();
         services.AddScoped<GetResourcesQueryHandler>();

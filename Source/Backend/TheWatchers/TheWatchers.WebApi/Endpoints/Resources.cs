@@ -7,19 +7,16 @@ public static partial class Mappings
 {
     public static WebApplication MapResources(this WebApplication webApplication)
     {
-        webApplication.MapGet("resources", async ([FromServices] GetResourcesQueryHandler requestHandler, [AsParameters] GetResourcesQuery request) =>
+        webApplication.MapGet("resources", async ([FromServices] GetResourcesQueryHandler handler, [AsParameters] GetResourcesQuery request) =>
         {
-            var value = await requestHandler.HandleAsync(request);
+            var value = await handler.HandleAsync(request);
             return Results.Ok(value);
         });
 
-        webApplication.MapGet("resources/{id}", async ([FromServices] GetResourceQueryHandler requestHandler, int id) =>
+        webApplication.MapGet("resources/{id}", async ([FromServices] GetResourceQueryHandler handler, int id) =>
         {
-            var value = await requestHandler.HandleAsync(new GetResourceQuery(id));
-            if (value == null)
-                return Results.NotFound();
-
-            return Results.Ok(value);
+            var value = await handler.HandleAsync(new GetResourceQuery(id));
+            return value == null ? Results.NotFound() : Results.Ok(value);
         });
 
         return webApplication;
